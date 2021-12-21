@@ -1,0 +1,9 @@
+#EXT_CAST {
+    order: 1;
+    flex: 1 1 auto;
+    border: none;
+}
+
+#EXT_CAST.hidden {
+   display:none;
+}
