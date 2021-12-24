@@ -50,7 +50,7 @@ module.exports = NodeHelper.create({
   /** It will not crash MM (black screen) **/
   loadBugsounetLibrary: function() {
     let libraries= [
-      // { "library to load" : [ "store library name", "path to check", needed without EXT ?] }
+      // { "library to load" : [ "store library name", "path to check" ] }
       { "@bugsounet/npmcheck": [ "npmCheck", "NPMCheck.useChecker" ] },
       { "@bugsounet/cast": [ "CastServer", "castName" ] }
     ]

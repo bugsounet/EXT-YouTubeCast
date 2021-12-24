@@ -1,7 +1,7 @@
 /**
  ** Module : MMM-YouTubeCast
  ** @bugsounet
- ** ©01-2021
+ ** ©01-2022
  ** support: http://forum.bugsounet.fr
  **/
 
@@ -23,10 +23,6 @@ Module.register("MMM-YouTubeCast", {
     if (this.config.debug) logCast = (...args) => { console.log("[CAST]", ...args) }
   },
 
-  getScripts: function() {
-    return [ ]
-  },
-
   getStyles: function () {
     return [
       "MMM-YouTubeCast.css",
@@ -35,7 +31,9 @@ Module.register("MMM-YouTubeCast", {
   },
 
   getDom: function() {
-
+    var dom = document.createElement("div")
+    dom.style.display = 'none'
+    return dom
   },
 
   notificationReceived: function(noti, payload) {
@@ -63,8 +61,8 @@ Module.register("MMM-YouTubeCast", {
   },
 
   castStart: function (url) {
-    /** emulation of displaying links **/
     // stop all other EXT
+    this.modulesHide()
     var webView = document.getElementById("EXT_CAST")
     logCast("Cast Loading", url)
     this.castShow()
@@ -73,24 +71,42 @@ Module.register("MMM-YouTubeCast", {
   },
 
   castStop: function () {
-    this.HideCast()
+    this.castHide()
+    var webView = document.getElementById("EXT_CAST")
+    webView.src= "about:blank"
+    this.modulesShow()
   },
 
   castShow: function () {
-
+    logCast("Show Iframe")
+    var iframe = document.getElementById("EXT_CAST")
+    iframe.classList.remove("hidden")
   },
 
   castHide: function () {
+    logCast("Hide Iframe")
+    var iframe = document.getElementById("EXT_CAST")
+    iframe.classList.add("hidden")
+  },
 
+  modulesHide: function () {
+    MM.getModules().enumerate((module)=> {
+      module.hide(100, {lockString: "EXT_LOCKED"})
+    })
+  },
+
+  modulesShow: function () {
+    MM.getModules().enumerate((module)=> {
+      module.show(100, {lockString: "EXT_LOCKED"})
+    })
   },
 
   preparePopup: function () {
     var Cast = document.createElement("webview")
-    Cast.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
     Cast.id = "EXT_CAST"
+    Cast.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
     Cast.scrolling="no"
     Cast.classList.add("hidden")
     document.body.appendChild(Cast)
   }
-
 })
