@@ -1,5 +1,5 @@
 /**
- ** Module : MMM-YouTubeCast
+ ** Module : EXT-YouTubeCast
  ** @bugsounet
  ** ©01-2022
  ** support: http://forum.bugsounet.fr
@@ -7,7 +7,7 @@
 
 logCast = (...args) => { /* do nothing */ }
 
-Module.register("MMM-YouTubeCast", {
+Module.register("EXT-YouTubeCast", {
   defaults: {
     debug: true,
     castName: "MagicMirror",
@@ -25,7 +25,7 @@ Module.register("MMM-YouTubeCast", {
 
   getStyles: function () {
     return [
-      "MMM-YouTubeCast.css",
+      "EXT-YouTubeCast.css",
       "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     ]
   },
@@ -57,7 +57,7 @@ Module.register("MMM-YouTubeCast", {
         //this.Informations("information", { message: "CastStop" })
         this.castStop()
         break
-    }    
+    }
   },
 
   castStart: function (url) {

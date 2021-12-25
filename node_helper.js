@@ -11,7 +11,7 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function (noti, payload) {
     switch (noti) {
       case "INIT":
-        console.log("[NOTI] MMM-YouTubeCast Version:", require('./package.json').version, "rev:", require('./package.json').rev)
+        console.log("[NOTI] EXT-YouTubeCast Version:", require('./package.json').version, "rev:", require('./package.json').rev)
         this.initialize(payload)
       break
     }
@@ -65,7 +65,7 @@ module.exports = NodeHelper.create({
               index = (obj,i) => { return obj[i] }
 
           // libraryActivate: verify if the needed path of config is activated (result of reading config value: true/false) **/
-          let libraryActivate = libraryPath.split(".").reduce(index,this.config) 
+          let libraryActivate = libraryPath.split(".").reduce(index,this.config)
           if (libraryActivate) {
             try {
               if (!this.Lib[libraryName]) {
