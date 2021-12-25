@@ -1,5 +1,5 @@
 {
-  "name": "MMM-YouTubeCast",
+  "name": "EXT-YouTubeCast",
   "version": "0.0.1",
   "rev": "develop",
   "description": "An embedded YouTube Cast Dislayer on MagicMirror.",
