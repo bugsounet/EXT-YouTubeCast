@@ -13,8 +13,8 @@ logCast = (...args) => { /* do nothing */ }
 
 Module.register("EXT-YouTubeCast", {
   defaults: {
-    debug: true,
-    fullscreen: false,
+    debug: false,
+    fullscreen: true,
     alwaysDisplayed: true,
     width: "30vw",
     height: "17vw",
@@ -37,7 +37,7 @@ Module.register("EXT-YouTubeCast", {
 
   getStyles: function () {
     return [
-      "EXT-YouTubeCast.css",
+      "EXT-YouTubeCast.css"
     ]
   },
 
