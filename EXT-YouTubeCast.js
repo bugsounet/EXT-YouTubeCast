@@ -1,8 +1,12 @@
 /**
  ** Module : EXT-YouTubeCast
  ** @bugsounet
- ** ©01-2022
- ** support: http://forum.bugsounet.fr
+ ** ©02-2022
+ ** support: https://forum.bugsounet.fr
+ **/
+
+/**
+ * Todo : make EXT-Alert for library not loaded
  **/
 
 logCast = (...args) => { /* do nothing */ }
@@ -10,6 +14,10 @@ logCast = (...args) => { /* do nothing */ }
 Module.register("EXT-YouTubeCast", {
   defaults: {
     debug: true,
+    fullscreen: false,
+    alwaysDisplayed: true,
+    width: "30vw",
+    height: "17vw",
     castName: "MagicMirror",
     port: 8569,
     NPMCheck: {
@@ -20,28 +28,56 @@ Module.register("EXT-YouTubeCast", {
   },
 
   start: function () {
+    //override user set !
+    if (this.data.position== "fullscreen_above" || this.data.position== "fullscreen_below") this.config.fullscreen = true
+    if (!this.data.position) this.data.position= "top_center"
     if (this.config.debug) logCast = (...args) => { console.log("[CAST]", ...args) }
+    this.castActive = false
   },
 
   getStyles: function () {
     return [
       "EXT-YouTubeCast.css",
-      "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     ]
   },
 
   getDom: function() {
-    var dom = document.createElement("div")
-    dom.style.display = 'none'
-    return dom
+    var wrapper = document.createElement('div')
+    wrapper.id = "EXT-CAST_WINDOW"
+    if (this.config.fullscreen) {
+      wrapper.className = "hidden"
+      return wrapper
+    }
+
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, {lockString: "EXT-CAST_LOCKED"})
+    wrapper.style.width = this.config.width
+    wrapper.style.height = this.config.height
+    var CASTLogo= document.createElement('img')
+    CASTLogo.id = "EXT-CAST_LOGO"
+    CASTLogo.src = "modules/EXT-YouTubeCast/resources/cast-Logo.png"
+    wrapper.appendChild(CASTLogo)
+
+    var CASTPlayer = document.createElement("webview")
+    CASTPlayer.id = "EXT-CAST"
+    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
+    CASTPlayer.scrolling="no"
+    CASTPlayer.classList.add("hidden")
+
+    wrapper.appendChild(CASTPlayer)
+    return wrapper
   },
 
   notificationReceived: function(noti, payload) {
     switch(noti) {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
-        this.preparePopup()
+        this.sendNotification("EXT_HELLO", this.name)
+        if (this.config.fullscreen) this.preparePopup()
         break
+      case "EXT_STOP":
+        if (!this.castActive) return
+        this.broadcastStatus("END")
+        this.castStop()
     }
   },
 
@@ -49,44 +85,59 @@ Module.register("EXT-YouTubeCast", {
     switch(noti) {
       /** cast module **/
       case "CAST_START":
-        this.sendSocketNotification("SCREEN_WAKEUP")
-        //this.Informations("information", { message: "CastStart" })
+        this.sendNotification("EXT_ALERT", {
+          type: "information",
+          message: this.translate("CastStart"),
+          icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
+        })
+        this.broadcastStatus("START")
         this.castStart(payload)
         break
       case "CAST_STOP":
-        //this.Informations("information", { message: "CastStop" })
+        this.sendNotification("EXT_ALERT", {
+          type: "information",
+          message: this.translate("CastStop"),
+          icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
+        })
+        this.broadcastStatus("END")
         this.castStop()
         break
     }
   },
 
+  broadcastStatus: function(status) {
+    switch (status) {
+      case "START":
+        this.sendNotification("EXT_YOUTUBECAST-CONNECTED")
+        this.castActive = true
+        break
+      case "END":
+        this.sendNotification("EXT_YOUTUBECAST-DISCONNECTED")
+        this.castActive = false
+        break
+    }
+  },
+
   castStart: function (url) {
-    // stop all other EXT
-    this.modulesHide()
-    var webView = document.getElementById("EXT_CAST")
-    logCast("Cast Loading", url)
-    this.castShow()
-    // lock EXT
-    webView.src= url
+    if (this.config.fullscreen) this.modulesHide()
+    var CASTPlayer = document.getElementById("EXT-CAST")
+    var CASTLogo = document.getElementById("EXT-CAST_LOGO")
+
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.show(0, {lockString: "EXT-CAST_LOCKED"})
+    if (!this.config.fullscreen) CASTLogo.className= "hidden"
+    CASTPlayer.classList.remove("hidden")
+    CASTPlayer.src = url
   },
 
   castStop: function () {
-    this.castHide()
-    var webView = document.getElementById("EXT_CAST")
-    webView.src= "about:blank"
-    this.modulesShow()
-  },
+    var CASTPlayer = document.getElementById("EXT-CAST")
+    var CASTLogo = document.getElementById("EXT-CAST_LOGO")
 
-  castShow: function () {
-    logCast("Show Iframe")
-    var iframe = document.getElementById("EXT_CAST")
-    iframe.classList.remove("hidden")
-  },
-
-  castHide: function () {
-    logCast("Hide Iframe")
-    var iframe = document.getElementById("EXT_CAST")
-    iframe.classList.add("hidden")
+    CASTPlayer.classList.add("hidden")
+    CASTPlayer.src= "about:blank?&seed="+Date.now()
+    if (!this.config.fullscreen) CASTLogo.classList.remove("hidden")
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, {lockString: "EXT-CAST_LOCKED"})
+    if (this.config.fullscreen) this.modulesShow()
   },
 
   modulesHide: function () {
@@ -102,11 +153,11 @@ Module.register("EXT-YouTubeCast", {
   },
 
   preparePopup: function () {
-    var Cast = document.createElement("webview")
-    Cast.id = "EXT_CAST"
-    Cast.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
-    Cast.scrolling="no"
-    Cast.classList.add("hidden")
-    document.body.appendChild(Cast)
+    var CASTPlayer = document.createElement("webview")
+    CASTPlayer.id = "EXT-CAST"
+    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
+    CASTPlayer.scrolling="no"
+    CASTPlayer.classList.add("hidden", "fullscreen")
+    document.body.appendChild(CASTPlayer)
   }
 })

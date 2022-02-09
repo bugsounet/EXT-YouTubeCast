@@ -24,7 +24,7 @@ module.exports = NodeHelper.create({
     let bugsounet = await this.loadBugsounetLibrary()
     if (bugsounet) {
       console.error("[CAST] Warning:", bugsounet, "@bugsounet library not loaded !")
-      console.error("[CAST] Try to solve it with `npm run rebuild` in CAST directory")
+      console.error("[CAST] Try to solve it with `npm run rebuild` in EXT-CAST directory")
     }
     else {
       console.log("[CAST] All needed @bugsounet library loaded !")
