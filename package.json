@@ -1,12 +1,13 @@
 {
   "name": "EXT-YouTubeCast",
   "version": "1.0.0",
-  "rev": "220208",
+  "rev": "220225",
   "description": "An embedded YouTube Cast Dislayer on MagicMirror.",
   "main": "EXT-YouTubeCast.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh",
-    "postinstall": "installer/postinstall.sh"
+    "postinstall": "installer/postinstall.sh",
+    "update": "installer/update.sh"
   },
   "keywords": [
     "magic mirror",
