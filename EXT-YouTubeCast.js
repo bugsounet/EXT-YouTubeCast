@@ -19,12 +19,7 @@ Module.register("EXT-YouTubeCast", {
     width: "30vw",
     height: "17vw",
     castName: "MagicMirror",
-    port: 8569,
-    NPMCheck: {
-      useChecker: true,
-      delay: 10 * 60 * 1000,
-      useAlert: true
-    }
+    port: 8569
   },
 
   start: function () {

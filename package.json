@@ -25,7 +25,6 @@
   },
   "homepage": "https://wiki.bugsounet.fr/en/EXT-YouTubeCast",
   "dependencies": {
-    "@bugsounet/cast": "^1.1.3",
-    "@bugsounet/npmcheck": "^0.9.96"
+    "@bugsounet/cast": "^1.1.3"
   }
 }
