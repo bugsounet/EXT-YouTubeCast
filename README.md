@@ -16,7 +16,7 @@ This module can be controled by ... the YouTube app of your Phone !
 
 ## Installation / update / configuration
 
-Read the docs in [wiki](https://wiki.bugsounet.fr/EXT-YouTubeVLC)
+Read the docs in [wiki](https://wiki.bugsounet.fr/EXT-YouTubeCast)
 
 ## Support and Helping
 New forum and support for all @bugsounet modules is now localized [there](https://forum.bugsounet.fr) !
