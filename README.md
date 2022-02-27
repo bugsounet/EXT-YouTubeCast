@@ -9,6 +9,11 @@ This module is an Extented for `MMM-GoogleAssistant` v4.x, you can naturally use
 
 This module can be controled by ... the YouTube app of your Phone !
 
+## Screenshot
+
+![](https://raw.githubusercontent.com/bugsounet/EXT-YouTubeCast/dev/resources/Screenshot1.png)
+![](https://raw.githubusercontent.com/bugsounet/EXT-YouTubeCast/dev/resources/Screenshot2.png)
+
 ## Installation / update / configuration
 
 Read the docs in [wiki](https://wiki.bugsounet.fr/EXT-YouTubeVLC)

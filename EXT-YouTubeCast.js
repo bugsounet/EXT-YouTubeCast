@@ -5,26 +5,17 @@
  ** support: https://forum.bugsounet.fr
  **/
 
-/**
- * Todo : make EXT-Alert for library not loaded
- **/
-
 logCast = (...args) => { /* do nothing */ }
 
 Module.register("EXT-YouTubeCast", {
   defaults: {
     debug: false,
-    fullscreen: true,
+    fullscreen: false,
     alwaysDisplayed: true,
     width: "30vw",
     height: "17vw",
     castName: "MagicMirror",
-    port: 8569,
-    NPMCheck: {
-      useChecker: true,
-      delay: 10 * 60 * 1000,
-      useAlert: true
-    }
+    port: 8569
   },
 
   start: function () {
@@ -39,6 +30,19 @@ Module.register("EXT-YouTubeCast", {
     return [
       "EXT-YouTubeCast.css"
     ]
+  },
+
+  getTranslations: function() {
+    return {
+      en: "translations/en.json",
+      fr: "translations/fr.json",
+      it: "translations/it.json",
+      de: "translations/de.json",
+      es: "translations/es.json",
+      nl: "translations/nl.json",
+      pt: "translations/pt.json",
+      ko: "translations/ko.json"
+    }
   },
 
   getDom: function() {
@@ -71,10 +75,11 @@ Module.register("EXT-YouTubeCast", {
     switch(noti) {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
-        this.sendNotification("EXT_HELLO", this.name)
         if (this.config.fullscreen) this.preparePopup()
+        this.sendNotification("EXT_HELLO", this.name)
         break
       case "EXT_STOP":
+      case "EXT_YOUTUBECAST-STOP":
         if (!this.castActive) return
         this.broadcastStatus("END")
         this.castStop()
@@ -101,6 +106,13 @@ Module.register("EXT-YouTubeCast", {
         })
         this.broadcastStatus("END")
         this.castStop()
+        break
+      case "CAST_WARNING":
+        this.sendNotification("EXT_ALERT", {
+          type: "error",
+          message: "castName missing in config",
+          icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
+        })
         break
     }
   },
