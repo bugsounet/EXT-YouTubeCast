@@ -31,8 +31,7 @@ module.exports = NodeHelper.create({
       )
       this.cast.start()
     } else {
-      this.sendSocketNotification("WARNING" , {  message: "Cast: castName error" } )
-      // todo ... display warning
+      this.sendSocketNotification("CAST_WARNING")
     }
   }
 })
