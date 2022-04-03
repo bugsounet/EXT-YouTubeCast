@@ -2,7 +2,7 @@
 
 var NodeHelper = require("node_helper")
 var log = (...args) => { /* do nothing */ }
-var LibCast = require("@bugsounet/cast")
+var LibCast = require("./lib/castLib.js")
 
 module.exports = NodeHelper.create({
   socketNotificationReceived: function (noti, payload) {
