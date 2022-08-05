@@ -8,7 +8,7 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function (noti, payload) {
     switch (noti) {
       case "INIT":
-        console.log("[NOTI] EXT-YouTubeCast Version:", require('./package.json').version, "rev:", require('./package.json').rev)
+        console.log("[CAST] EXT-YouTubeCast Version:", require('./package.json').version, "rev:", require('./package.json').rev)
         this.initialize(payload)
       break
     }
