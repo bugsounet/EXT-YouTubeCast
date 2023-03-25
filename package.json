@@ -1,7 +1,7 @@
 {
   "name": "EXT-YouTubeCast",
-  "version": "1.0.5",
-  "rev": "230312",
+  "version": "1.1.0",
+  "rev": "230325",
   "description": "An embedded YouTube Cast Dislayer on MagicMirror.",
   "main": "EXT-YouTubeCast.js",
   "scripts": {
