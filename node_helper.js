@@ -21,7 +21,7 @@ module.exports = NodeHelper.create({
   },
   
   serverStart: function () {
-    log("Starting Cast module...")
+    log("Starting...")
     if (this.config.castName) {
       this.cast = new LibCast(
         this.config,
