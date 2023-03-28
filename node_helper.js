@@ -2,7 +2,7 @@
 
 var NodeHelper = require("node_helper")
 var log = (...args) => { /* do nothing */ }
-var LibCast = require("./lib/castLib.js")
+var LibCast = require("./components/castLib.js")
 
 module.exports = NodeHelper.create({
   socketNotificationReceived: function (noti, payload) {
@@ -17,12 +17,11 @@ module.exports = NodeHelper.create({
   initialize: async function (config) {
     this.config = config
     if (this.config.debug) log = (...args) => { console.log("[CAST]", ...args) }
-    log(config)
     this.serverStart()
   },
   
   serverStart: function () {
-    log("Starting Cast module...")
+    log("Starting...")
     if (this.config.castName) {
       this.cast = new LibCast(
         this.config,

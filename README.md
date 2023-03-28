@@ -1,13 +1,11 @@
-# MMM-YouTubeCast - Extented for `MMM-GoogleAssistant` v5.x
+# MMM-YouTubeCast - Extented for `MMM-GoogleAssistant`
 
-EXT-YouTubeCast is a module for the [MagicMirror](https://github.com/MichMich/MagicMirror) project by [Michael Teeuw](https://github.com/MichMich).
+EXT-YouTubeCast is a plugin for `MMM-GoogleAssistant`
 
 It allow to Cast YouTube video on MagicMirror<br>
 This Cast can be displayed in fullscreen or in module position 
 
-This module is an Extented for `MMM-GoogleAssistant` v5.x, you can naturally use it as a simple module !<br>
-
-This module can be controled by ... the YouTube app of your Phone !
+This plugin can be controled by the YouTube app of your Phone, your desktop, your laptop, ...
 
 ## Screenshot
 

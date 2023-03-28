@@ -1,7 +1,7 @@
 /** Cast library with DIAL protocol **/
 /** @bugsounet **/
 
-const dial = require("./dial/peer-dial.js")
+const dial = require("../components/peer-dial.js")
 const express = require('express')
 const app = express()
 
@@ -46,7 +46,7 @@ class DialServer {
       prefix: "/dial",
       corsAllowOrigins: true,
       manufacturer: "@bugsounet",
-      modelName: "MagicMirror²",
+      modelName: "EXT-YouTubeCast",
       delegate: {
         getApp: (appName) => {
           var app = this.apps[appName] ? this.apps[appName] : "[unknow protocol]"

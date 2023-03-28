@@ -31,8 +31,8 @@ var xml2js = require('xml2js');
 var cors = require('cors');
 var gate = require('gate');
 
-var DEVICE_DESC_TEMPLATE = fs.readFileSync(__dirname + '/../xml/device-desc.xml', 'utf8');
-var APP_DESC_TEMPLATE = fs.readFileSync(__dirname + '/../xml/app-desc.xml', 'utf8');
+var DEVICE_DESC_TEMPLATE = fs.readFileSync(__dirname + '/device-desc.xml', 'utf8');
+var APP_DESC_TEMPLATE = fs.readFileSync(__dirname + '/app-desc.xml', 'utf8');
 var DEVICE_DESC_RENDERER = ejs.compile(DEVICE_DESC_TEMPLATE);
 var APP_DESC_RENDERER = ejs.compile(APP_DESC_TEMPLATE);
 var SERVER = os.type() + "/" + os.release() + " UPnP/1.1 famium/0.0.1";
