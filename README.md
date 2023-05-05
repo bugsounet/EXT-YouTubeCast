@@ -1,5 +1,3 @@
-# MMM-YouTubeCast - Extented for `MMM-GoogleAssistant`
-
 EXT-YouTubeCast is a plugin for `MMM-GoogleAssistant`
 
 It allow to Cast YouTube video on MagicMirror<br>
