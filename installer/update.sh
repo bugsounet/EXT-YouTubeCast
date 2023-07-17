@@ -18,8 +18,9 @@ Installer_dir="$(Installer_get_current_dir)"
 
 # move to installler directory
 cd "$Installer_dir"
-
 source utils.sh
+
+# Go back to module root
 cd ..
 
 # check version in package.json file
@@ -27,30 +28,17 @@ Installer_version="$(grep -Eo '\"version\"[^,]*' ./package.json | grep -Eo '[^:]
 Installer_module="$(grep -Eo '\"name\"[^,]*' ./package.json | grep -Eo '[^:]*$' | awk  -F'\"' '{print $2}')"
 
 # Let's start !
-Installer_info "Welcome to $Installer_module v$Installer_version"
+Installer_info "Welcome to $Installer_module v$Installer_version Updater"
 
 echo
 
 # Check not run as root
 if [ "$EUID" -eq 0 ]; then
   Installer_error "npm install must not be used as root"
-  exit 1
-fi
-
-# Check platform compatibility
-Installer_info "Checking OS..."
-Installer_checkOS
-if  [ "$platform" == "osx" ]; then
-  Installer_error "OS Detected: $OSTYPE ($os_name $os_version $arch)"
-  Installer_error "This module is not compatible with your system"
-  exit 0
-else
-  Installer_success "OS Detected: $OSTYPE ($os_name $os_version $arch)"
+  exit 255
 fi
 
 echo
-
-# deleting package.json because npm install add/update package
 rm -f package-lock.json
 
 Installer_info "Updating..."
@@ -65,4 +53,3 @@ Installer_info "Ready for Installing..."
 
 # launch installer
 npm install
- 
