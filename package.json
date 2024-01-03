@@ -1,7 +1,7 @@
 {
   "name": "EXT-YouTubeCast",
-  "version": "1.1.4",
-  "rev": "231001",
+  "version": "1.2.0",
+  "rev": "240103",
   "description": "An embedded YouTube Cast Dislayer on MagicMirror.",
   "main": "EXT-YouTubeCast.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "clean": "rm -rf node_modules package-lock.json"
   },
   "engines": {
-    "node": ">=16.14.0"
+    "node": ">=18"
   },
   "keywords": [
     "magic mirror",
@@ -32,7 +32,7 @@
   "homepage": "https://wiki.bugsounet.fr/en/EXT-YouTubeCast",
   "dependencies": {
     "ejs": "^3.1.9",
-    "esbuild": "^0.19.4",
+    "esbuild": "^0.19.11",
     "gate": "^0.3.0",
     "glob": "^10.3.10",
     "peer-ssdp": "0.0.5",

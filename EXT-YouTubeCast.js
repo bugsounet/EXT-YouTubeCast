@@ -76,8 +76,8 @@ Module.register("EXT-YouTubeCast", {
 
   notificationReceived: function(noti, payload, sender) {
     switch(noti) {
-      case "GW_READY":
-        if (sender.name == "Gateway") {
+      case "GA_READY":
+        if (sender.name == "MMM-GoogleAssistant") {
           this.sendSocketNotification("INIT", this.config)
           if (this.config.fullscreen) this.preparePopup()
           this.sendNotification("EXT_HELLO", this.name)
