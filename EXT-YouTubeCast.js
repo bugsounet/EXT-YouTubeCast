@@ -1,11 +1,11 @@
 /**
  ** Module : EXT-YouTubeCast
  ** @bugsounet
- ** ©02-2022
+ ** ©03-2024
  ** support: https://forum.bugsounet.fr
  **/
 
-logCast = (...args) => { /* do nothing */ }
+logCast = (...args) => { /* do nothing */ };
 
 Module.register("EXT-YouTubeCast", {
   defaults: {
@@ -18,21 +18,21 @@ Module.register("EXT-YouTubeCast", {
     port: 8569
   },
 
-  start: function () {
+  start () {
     //override user set !
-    if (this.data.position== "fullscreen_above" || this.data.position== "fullscreen_below") this.config.fullscreen = true
-    if (!this.data.position) this.data.position= "top_center"
-    if (this.config.debug) logCast = (...args) => { console.log("[CAST]", ...args) }
-    this.castActive = false
+    if (this.data.position === "fullscreen_above" || this.data.position === "fullscreen_below") this.config.fullscreen = true;
+    if (!this.data.position) this.data.position= "top_center";
+    if (this.config.debug) logCast = (...args) => { console.log("[CAST]", ...args); };
+    this.castActive = false;
   },
 
-  getStyles: function () {
+  getStyles () {
     return [
       "EXT-YouTubeCast.css"
-    ]
+    ];
   },
 
-  getTranslations: function() {
+  getTranslations () {
     return {
       en: "translations/en.json",
       fr: "translations/fr.json",
@@ -45,53 +45,53 @@ Module.register("EXT-YouTubeCast", {
       el: "translations/el.json",
       "zh-cn": "translations/zh-cn.json",
       tr: "translations/tr.json"
-    }
+    };
   },
 
-  getDom: function() {
-    var wrapper = document.createElement('div')
-    wrapper.id = "EXT-CAST_WINDOW"
+  getDom () {
+    var wrapper = document.createElement("div");
+    wrapper.id = "EXT-CAST_WINDOW";
     if (this.config.fullscreen) {
-      wrapper.className = "hidden"
-      return wrapper
+      wrapper.className = "hidden";
+      return wrapper;
     }
 
-    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, {lockString: "EXT-CAST_LOCKED"})
-    wrapper.style.width = this.config.width
-    wrapper.style.height = this.config.height
-    var CASTLogo= document.createElement('img')
-    CASTLogo.id = "EXT-CAST_LOGO"
-    CASTLogo.src = "modules/EXT-YouTubeCast/resources/cast-Logo.png"
-    wrapper.appendChild(CASTLogo)
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, { lockString: "EXT-CAST_LOCKED" });
+    wrapper.style.width = this.config.width;
+    wrapper.style.height = this.config.height;
+    var CASTLogo= document.createElement("img");
+    CASTLogo.id = "EXT-CAST_LOGO";
+    CASTLogo.src = "modules/EXT-YouTubeCast/resources/cast-Logo.png";
+    wrapper.appendChild(CASTLogo);
 
-    var CASTPlayer = document.createElement("webview")
-    CASTPlayer.id = "EXT-CAST"
-    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
-    CASTPlayer.scrolling="no"
-    CASTPlayer.classList.add("hidden")
+    var CASTPlayer = document.createElement("webview");
+    CASTPlayer.id = "EXT-CAST";
+    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
+    CASTPlayer.scrolling="no";
+    CASTPlayer.classList.add("hidden");
 
-    wrapper.appendChild(CASTPlayer)
-    return wrapper
+    wrapper.appendChild(CASTPlayer);
+    return wrapper;
   },
 
-  notificationReceived: function(noti, payload, sender) {
+  notificationReceived (noti, payload, sender) {
     switch(noti) {
       case "GA_READY":
-        if (sender.name == "MMM-GoogleAssistant") {
-          this.sendSocketNotification("INIT", this.config)
-          if (this.config.fullscreen) this.preparePopup()
-          this.sendNotification("EXT_HELLO", this.name)
+        if (sender.name === "MMM-GoogleAssistant") {
+          this.sendSocketNotification("INIT", this.config);
+          if (this.config.fullscreen) this.preparePopup();
+          this.sendNotification("EXT_HELLO", this.name);
         }
-        break
+        break;
       case "EXT_STOP":
       case "EXT_YOUTUBECAST-STOP":
-        if (!this.castActive) return
-        this.broadcastStatus("END")
-        this.castStop()
+        if (!this.castActive) return;
+        this.broadcastStatus("END");
+        this.castStop();
     }
   },
 
-  socketNotificationReceived: function(noti, payload) {
+  socketNotificationReceived (noti, payload) {
     switch(noti) {
       /** cast module **/
       case "CAST_START":
@@ -99,82 +99,82 @@ Module.register("EXT-YouTubeCast", {
           type: "information",
           message: this.translate("CastStart"),
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
-        })
-        this.broadcastStatus("START")
-        this.castStart(payload)
-        break
+        });
+        this.broadcastStatus("START");
+        this.castStart(payload);
+        break;
       case "CAST_STOP":
         this.sendNotification("EXT_ALERT", {
           type: "information",
           message: this.translate("CastStop"),
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
-        })
-        this.broadcastStatus("END")
-        this.castStop()
-        break
+        });
+        this.broadcastStatus("END");
+        this.castStop();
+        break;
       case "CAST_WARNING":
         this.sendNotification("EXT_ALERT", {
           type: "error",
           message: "castName missing in config",
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
-        })
-        break
+        });
+        break;
     }
   },
 
-  broadcastStatus: function(status) {
+  broadcastStatus (status) {
     switch (status) {
       case "START":
-        this.sendNotification("EXT_YOUTUBECAST-CONNECTED")
-        this.castActive = true
-        break
+        this.sendNotification("EXT_YOUTUBECAST-CONNECTED");
+        this.castActive = true;
+        break;
       case "END":
-        this.sendNotification("EXT_YOUTUBECAST-DISCONNECTED")
-        this.castActive = false
-        break
+        this.sendNotification("EXT_YOUTUBECAST-DISCONNECTED");
+        this.castActive = false;
+        break;
     }
   },
 
-  castStart: function (url) {
-    if (this.config.fullscreen) this.modulesHide()
-    var CASTPlayer = document.getElementById("EXT-CAST")
-    var CASTLogo = document.getElementById("EXT-CAST_LOGO")
+  castStart (url) {
+    if (this.config.fullscreen) this.modulesHide();
+    var CASTPlayer = document.getElementById("EXT-CAST");
+    var CASTLogo = document.getElementById("EXT-CAST_LOGO");
 
-    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.show(0, {lockString: "EXT-CAST_LOCKED"})
-    if (!this.config.fullscreen) CASTLogo.className= "hidden"
-    CASTPlayer.classList.remove("hidden")
-    CASTPlayer.src = url
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.show(0, { lockString: "EXT-CAST_LOCKED" });
+    if (!this.config.fullscreen) CASTLogo.className= "hidden";
+    CASTPlayer.classList.remove("hidden");
+    CASTPlayer.src = url;
   },
 
-  castStop: function () {
-    var CASTPlayer = document.getElementById("EXT-CAST")
-    var CASTLogo = document.getElementById("EXT-CAST_LOGO")
+  castStop () {
+    var CASTPlayer = document.getElementById("EXT-CAST");
+    var CASTLogo = document.getElementById("EXT-CAST_LOGO");
 
-    CASTPlayer.classList.add("hidden")
-    CASTPlayer.src= "about:blank?&seed="+Date.now()
-    if (!this.config.fullscreen) CASTLogo.classList.remove("hidden")
-    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, {lockString: "EXT-CAST_LOCKED"})
-    if (this.config.fullscreen) this.modulesShow()
+    CASTPlayer.classList.add("hidden");
+    CASTPlayer.src= `about:blank?&seed=${Date.now()}`;
+    if (!this.config.fullscreen) CASTLogo.classList.remove("hidden");
+    if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, { lockString: "EXT-CAST_LOCKED" });
+    if (this.config.fullscreen) this.modulesShow();
   },
 
-  modulesHide: function () {
+  modulesHide () {
     MM.getModules().enumerate((module)=> {
-      module.hide(100, {lockString: "EXT_LOCKED"})
-    })
+      module.hide(100, { lockString: "EXT_LOCKED" });
+    });
   },
 
-  modulesShow: function () {
+  modulesShow () {
     MM.getModules().enumerate((module)=> {
-      module.show(100, {lockString: "EXT_LOCKED"})
-    })
+      module.show(100, { lockString: "EXT_LOCKED" });
+    });
   },
 
-  preparePopup: function () {
-    var CASTPlayer = document.createElement("webview")
-    CASTPlayer.id = "EXT-CAST"
-    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1"
-    CASTPlayer.scrolling="no"
-    CASTPlayer.classList.add("hidden", "fullscreen")
-    document.body.appendChild(CASTPlayer)
+  preparePopup () {
+    var CASTPlayer = document.createElement("webview");
+    CASTPlayer.id = "EXT-CAST";
+    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
+    CASTPlayer.scrolling="no";
+    CASTPlayer.classList.add("hidden", "fullscreen");
+    document.body.appendChild(CASTPlayer);
   }
-})
+});
