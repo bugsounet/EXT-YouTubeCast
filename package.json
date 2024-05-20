@@ -37,7 +37,7 @@
   "homepage": "https://wiki.bugsounet.fr/en/EXT-YouTubeCast",
   "dependencies": {
     "ejs": "^3.1.10",
-    "esbuild": "^0.21.2",
+    "esbuild": "^0.21.3",
     "gate": "^0.3.0",
     "glob": "^10.3.15",
     "peer-ssdp": "0.0.5",
