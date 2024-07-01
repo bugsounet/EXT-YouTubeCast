@@ -1,12 +1,12 @@
 {
   "name": "EXT-YouTubeCast",
-  "version": "1.3.2",
-  "rev": "240421",
+  "version": "1.4.0",
+  "rev": "240701",
   "description": "An embedded YouTube Cast Dislayer on MagicMirror.",
   "main": "EXT-YouTubeCast.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh",
-    "postinstall": "installer/postinstall.sh -m -b",
+    "postinstall": "installer/postinstall.sh -m",
     "update": "installer/update.sh",
     "reset": "git reset --hard",
     "clean": "rm -rf node_modules package-lock.json",
@@ -16,7 +16,7 @@
     "test:minify": "cd installer && node minify.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "keywords": [
     "MMM-GoogleAssistant",
@@ -28,7 +28,7 @@
   "author": "bugsounet",
   "license": "MIT",
   "bugs": {
-    "url": "https://forum.bugsounet.fr"
+    "url": "https://github.com/bugsounet/EXT-YouTubeCast/issues"
   },
   "repository": {
     "type": "git",
@@ -37,16 +37,16 @@
   "homepage": "https://wiki.bugsounet.fr/en/EXT-YouTubeCast",
   "dependencies": {
     "ejs": "^3.1.10",
-    "esbuild": "^0.20.2",
+    "esbuild": "^0.22.0",
     "gate": "^0.3.0",
-    "glob": "^10.3.12",
+    "glob": "^10.4.2",
     "peer-ssdp": "0.0.5",
-    "uuid": "^9.0.1",
+    "uuid": "^10.0.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
-    "@stylistic/eslint-plugin": "^1.7.0",
+    "@stylistic/eslint-plugin": "^1.8.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1"
   }
