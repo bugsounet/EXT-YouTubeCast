@@ -95,7 +95,7 @@ Module.register("EXT-YouTubeCast", {
     switch(noti) {
       /** cast module **/
       case "CAST_START":
-        this.sendNotification("EXT_ALERT", {
+        this.sendNotification("GA_ALERT", {
           type: "information",
           message: this.translate("CastStart"),
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
@@ -104,7 +104,7 @@ Module.register("EXT-YouTubeCast", {
         this.castStart(payload);
         break;
       case "CAST_STOP":
-        this.sendNotification("EXT_ALERT", {
+        this.sendNotification("GA_ALERT", {
           type: "information",
           message: this.translate("CastStop"),
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
@@ -113,7 +113,7 @@ Module.register("EXT-YouTubeCast", {
         this.castStop();
         break;
       case "CAST_WARNING":
-        this.sendNotification("EXT_ALERT", {
+        this.sendNotification("GA_ALERT", {
           type: "error",
           message: "castName missing in config",
           icon: "modules/EXT-YouTubeCast/resources/cast-icon.png"
