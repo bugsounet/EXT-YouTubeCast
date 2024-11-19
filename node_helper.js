@@ -2,8 +2,8 @@
 
 var NodeHelper = require("node_helper");
 
-var log = (...args) => { /* do nothing */ };
-var LibCast = require("./components/castLib.js");
+var log = () => { /* do nothing */ };
+var LibCast = require("./components/castLib");
 
 module.exports = NodeHelper.create({
   socketNotificationReceived (noti, payload) {
@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
     if (this.config.debug) log = (...args) => { console.log("[CAST]", ...args); };
     this.serverStart();
   },
-  
+
   serverStart () {
     log("Starting...");
     if (this.config.castName) {

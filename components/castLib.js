@@ -2,14 +2,14 @@
 /** @bugsounet **/
 
 const express = require("express");
-const dial = require("../components/peer-dial.js");
+const dial = require("../components/peer-dial");
 
 const app = express();
 
-var _log = function () {
+var _log = (function () {
   var context = "[CAST]";
   return Function.prototype.bind.call(console.log, console, context);
-}();
+}());
 
 var log = function () {
   //do nothing
@@ -40,7 +40,7 @@ class DialServer {
     this.server = null;
   }
 
-  initDialServer (port) {
+  initDialServer () {
     this.dialServer = new dial.Server({
       expressApp: app,
       port: this.config.port,
@@ -54,10 +54,9 @@ class DialServer {
           log(`PONG ${appName}`, app);
           return app;
         },
-        launchApp: (appName,data,callback) => {
+        launchApp: (appName, data, callback) => {
           log(`Launch ${appName} with data:`, data);
           var app = this.apps[appName];
-          var pid = null;
           if (app) {
             app.pid = "run";
             app.state = "starting";
@@ -66,7 +65,7 @@ class DialServer {
           }
           callback(app.pid);
         },
-        stopApp: (appName,pid,callback) => {
+        stopApp: (appName, pid, callback) => {
           log("Stop", appName);
           var app = this.apps[appName];
           if (app && app.pid === pid) {

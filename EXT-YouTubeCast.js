@@ -5,8 +5,6 @@
  ** support: https://forum.bugsounet.fr
  **/
 
-logCast = (...args) => { /* do nothing */ };
-
 Module.register("EXT-YouTubeCast", {
   defaults: {
     debug: false,
@@ -21,15 +19,12 @@ Module.register("EXT-YouTubeCast", {
   start () {
     //override user set !
     if (this.data.position === "fullscreen_above" || this.data.position === "fullscreen_below") this.config.fullscreen = true;
-    if (!this.data.position) this.data.position= "top_center";
-    if (this.config.debug) logCast = (...args) => { console.log("[CAST]", ...args); };
+    if (!this.data.position) this.data.position = "top_center";
     this.castActive = false;
   },
 
   getStyles () {
-    return [
-      "EXT-YouTubeCast.css"
-    ];
+    return ["EXT-YouTubeCast.css"];
   },
 
   getTranslations () {
@@ -59,15 +54,15 @@ Module.register("EXT-YouTubeCast", {
     if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, { lockString: "EXT-CAST_LOCKED" });
     wrapper.style.width = this.config.width;
     wrapper.style.height = this.config.height;
-    var CASTLogo= document.createElement("img");
+    var CASTLogo = document.createElement("img");
     CASTLogo.id = "EXT-CAST_LOGO";
     CASTLogo.src = "modules/EXT-YouTubeCast/resources/cast-Logo.png";
     wrapper.appendChild(CASTLogo);
 
     var CASTPlayer = document.createElement("webview");
     CASTPlayer.id = "EXT-CAST";
-    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
-    CASTPlayer.scrolling="no";
+    CASTPlayer.useragent = "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
+    CASTPlayer.scrolling = "no";
     CASTPlayer.classList.add("hidden");
 
     wrapper.appendChild(CASTPlayer);
@@ -75,7 +70,7 @@ Module.register("EXT-YouTubeCast", {
   },
 
   notificationReceived (noti, payload, sender) {
-    switch(noti) {
+    switch (noti) {
       case "GA_READY":
         if (sender.name === "MMM-GoogleAssistant") {
           this.sendSocketNotification("INIT", this.config);
@@ -92,7 +87,8 @@ Module.register("EXT-YouTubeCast", {
   },
 
   socketNotificationReceived (noti, payload) {
-    switch(noti) {
+    switch (noti) {
+
       /** cast module **/
       case "CAST_START":
         this.sendNotification("GA_ALERT", {
@@ -141,7 +137,7 @@ Module.register("EXT-YouTubeCast", {
     var CASTLogo = document.getElementById("EXT-CAST_LOGO");
 
     if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.show(0, { lockString: "EXT-CAST_LOCKED" });
-    if (!this.config.fullscreen) CASTLogo.className= "hidden";
+    if (!this.config.fullscreen) CASTLogo.className = "hidden";
     CASTPlayer.classList.remove("hidden");
     CASTPlayer.src = url;
   },
@@ -151,20 +147,20 @@ Module.register("EXT-YouTubeCast", {
     var CASTLogo = document.getElementById("EXT-CAST_LOGO");
 
     CASTPlayer.classList.add("hidden");
-    CASTPlayer.src= `about:blank?&seed=${Date.now()}`;
+    CASTPlayer.src = `about:blank?&seed=${Date.now()}`;
     if (!this.config.fullscreen) CASTLogo.classList.remove("hidden");
     if (!this.config.alwaysDisplayed && !this.config.fullscreen) this.hide(0, { lockString: "EXT-CAST_LOCKED" });
     if (this.config.fullscreen) this.modulesShow();
   },
 
   modulesHide () {
-    MM.getModules().enumerate((module)=> {
+    MM.getModules().enumerate((module) => {
       module.hide(100, () => {}, { lockString: "EXT_LOCKED" });
     });
   },
 
   modulesShow () {
-    MM.getModules().enumerate((module)=> {
+    MM.getModules().enumerate((module) => {
       module.show(100, () => {}, { lockString: "EXT_LOCKED" });
     });
   },
@@ -172,8 +168,8 @@ Module.register("EXT-YouTubeCast", {
   preparePopup () {
     var CASTPlayer = document.createElement("webview");
     CASTPlayer.id = "EXT-CAST";
-    CASTPlayer.useragent= "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
-    CASTPlayer.scrolling="no";
+    CASTPlayer.useragent = "Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.1 TV Safari/538.1";
+    CASTPlayer.scrolling = "no";
     CASTPlayer.classList.add("hidden", "fullscreen");
     document.body.appendChild(CASTPlayer);
   }
